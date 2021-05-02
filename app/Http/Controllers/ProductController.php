@@ -122,4 +122,17 @@ class ProductController extends Controller
 
 		return view('ordernow',['total'=>$sum]);*/
 	}
+
+	function myOrders()
+	{
+		$user_id = Session::has('user') ? Session::get('user')['id'] : 0;
+		if(!$user_id){
+			return redirect('login');			
+		}
+        $orders= DB::table('order')
+         ->join('products','order.product_id','=','products.id')
+         ->where('order.user_id',$user_id)
+         ->get();
+         return view('myorders',['orders'=>$orders]);
+	}
 }

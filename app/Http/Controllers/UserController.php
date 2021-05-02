@@ -23,4 +23,16 @@ class UserController extends Controller
         $request->session()->forget('user');
         return redirect('/');
     }
+
+    function register(Request $request)
+    {
+        //return $request;
+
+        $user = new User;
+        $user->name = $request->user_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return redirect('/login');
+    }
 }
